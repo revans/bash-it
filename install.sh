@@ -3,6 +3,8 @@
 BASH_IT=$(cd ${0%/*} && echo ${PWD})
 cd "${OLDPWD}"
 
+[[ "${BASH_IT}" != "${HOME}/.bash_it" ]] && cp -Rf "${BASH_IT}" "${HOME}/.bash_it"
+
 BASH_PROFILE_BAK="${HOME}/.bash_profile.bak"
 if [ -f "${BASH_PROFILE_BAK}" ]; then
   list=($(ls "${BASH_PROFILE_BAK}"*))
