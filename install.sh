@@ -4,6 +4,11 @@ BASH_IT=$(cd ${0%/*} && echo ${PWD})
 cd "${OLDPWD}"
 
 cp "${HOME}/.bash_profile" "${HOME}/.bash_profile.bak"
+BASH_PROFILE_BAK="${HOME}/.bash_profile.bak"
+if [ -f "${BASH_PROFILE_BAK}" ]; then
+  list=($(ls "${BASH_PROFILE_BAK}"*))
+  BASH_PROFILE_BAK="${BASH_PROFILE_BAK}.${#list[@]}"
+fi
 
 echo "Your original .bash_profile has been backed up to .bash_profile.bak"
 
