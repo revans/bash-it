@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-BASH_IT="${HOME}/.bash_it"
+BASH_IT=$(cd ${0%/*} && echo ${PWD})
+cd "${OLDPWD}"
 
 cp "${HOME}/.bash_profile" "${HOME}/.bash_profile.bak"
 
