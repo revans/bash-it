@@ -31,7 +31,7 @@ echo "Copied the template .bash_profile into ~/.bash_profile, edit this file to 
 
 # to jekyll conf or not to jekyll conf
 while true; do
-  read -n 1 -p "Do you use Jekyll? (If you don't know what Jekyll is, answer 'n') [Y/N] " RESP
+  read -n 1 -p "Do you use Jekyll? (If you don't know what Jekyll is, answer 'n') [y/N] " RESP
   case ${RESP} in
     [yY])
       cp "${BASH_IT}/template/jekyllconfig.template.bash" "${HOME}/.jekyllconfig"
@@ -39,6 +39,8 @@ while true; do
           "Edit this file to customize bash-it when using the Jekyll plugins"
       break
     ;;
+    "")
+    ;&
     [nN])
       break
     ;;
@@ -74,8 +76,10 @@ function load_some() {
     fi
     file_name="${path##*/}"
     while true; do
-      read -p "Would you like to enable the ${file_name%%.*}${file_type}? [Y/N] " RESP
+      read -p "Would you like to enable the ${file_name%%.*}${file_type}? [Y/n] " RESP
       case ${RESP} in
+        "")
+        ;&
         [yY])
           ln -s "${path}" "${BASH_IT}/${file_type}/enabled"
           break
