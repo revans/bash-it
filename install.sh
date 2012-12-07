@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 BASH_IT=$(cd ${0%/*} && echo ${PWD})
-cd "${OLDPWD}"
 
 [[ "${BASH_IT}" != "${HOME}/.bash_it" ]] && cp -Rf "${BASH_IT}" "${HOME}/.bash_it"
 
