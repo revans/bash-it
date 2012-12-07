@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# direct bash install command
+# bash -c "$(curl -s https://raw.github.com/revans/bash-it/master/install.sh)"
 if [ "$0" == "bash" ]; then
   BASH_IT="${HOME}/.bash_it"
   [[ -d "${BASH_IT}" ]] && rm -rf "${BASH_IT}"
@@ -8,8 +10,10 @@ else
   BASH_IT=$(cd ${0%/*} && echo ${PWD})
 fi
 
+# if were not in ~/.bash_it then make it so
 [[ "${BASH_IT}" != "${HOME}/.bash_it" ]] && cp -Rf "${BASH_IT}" "${HOME}/.bash_it"
 
+# aggregated .bash_profile backups to prevent loss from overwriting previous backup
 BASH_PROFILE_BAK="${HOME}/.bash_profile.bak"
 if [ -f "${BASH_PROFILE_BAK}" ]; then
   list=($(ls "${BASH_PROFILE_BAK}"*))
@@ -25,6 +29,7 @@ cp "${BASH_IT}/template/bash_profile.template.bash" "${HOME}/.bash_profile"
 
 echo "Copied the template .bash_profile into ~/.bash_profile, edit this file to customize bash-it"
 
+# to jekyll conf or not to jekyll conf
 while true; do
   read -n 1 -p "Do you use Jekyll? (If you don't know what Jekyll is, answer 'n') [Y/N] " RESP
   case ${RESP} in
@@ -42,6 +47,8 @@ while true; do
   esac
 done
 
+# re-usable helper function to load all of type
+# argument file_type to load all
 function load_all() {
   file_type="${1}"
   [ ! -d "${BASH_IT}/${file_type}/enabled" ] && mkdir "${BASH_IT}/${file_type}/enabled"
@@ -57,6 +64,8 @@ function load_all() {
   done
 }
 
+# re-usable helper function to load some of type
+# argument file_type to load some
 function load_some() {
   file_type="${1}"
   for path in $(ls "${BASH_IT}/${file_type}/available/"[^_]*); do
@@ -82,6 +91,7 @@ function load_some() {
   done
 }
 
+# to load all/some/none of each enhancement type
 for type in "aliases" "plugins" "completion"; do
   while true; do
     prompt=("Enable ${type}: Would you like to enable all, some, or" \
