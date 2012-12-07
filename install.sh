@@ -79,9 +79,10 @@ function load_some() {
 
 for type in "aliases" "plugins" "completion"; do
   while true; do
-    read -p "Would you like to enable all, some, or no ${type}?" \
-        "Some of these may make bash slower to start up" \
-        "(especially completion). (all/some/none)" RESP
+    prompt=("Enable ${type}: Would you like to enable all, some, or" \
+        "no ${type}? Some of these may make bash slower to start up" \
+        "(especially completion).")
+    read -p "${prompt[*]} [all/some/none] " RESP
     case ${RESP} in
       some)
         load_some "${type}"
