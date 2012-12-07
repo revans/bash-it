@@ -8,9 +8,36 @@ Includes autocompletion, themes, aliases, custom functions, a few stolen pieces 
 
 ## Install
 
-1. Check a clone of this repo: `git clone http://github.com/revans/bash-it.git ~/.bash_it`
-2. Run `~/.bash_it/install.sh` (it automatically backs up your `~/.bash_profile`)
-3. Edit your `~/.bash_profile` file in order to customize bash-it.
+There are currently two recommended ways you can employ to install Bash it
+
+### Direct install
+
+Using bash and curl automagically install Bash it directly from the master repository on github.
+
+Copy and paste the following command (without the $) anywhere into a shell. Curl will retrieve the install script which then gets parsed and executed by bash. On detection of the direct installation process `install.sh` will first clone the repository into `~/.bash_it` before continuing with the installation.
+
+1. Execute the install script directly from github:
+```
+$ bash -c "$(curl -s https://raw.github.com/revans/bash-it/master/install.sh)"
+```
+
+2. Edit your `~/.bash_profile` file in order to customize Bash it.
+
+### Manual install
+
+Using the same `install.sh` script by which the direct install is accomplished after manually cloning the repository first. You would probably want to check bash-it out into the folder `~/.bash_it` but anywhere else you choose also dosen't matter. The `install.sh` script will detect the location it is executed from, if this is not `~/.bash_it` a copy of the checked out folder  will automatically be copied to `~/.bash_it` on your behalf.
+
+1. Check out a clone of the bash-it repository:
+```
+$ git clone http://github.com/revans/bash-it.git ~/.bash_it
+```
+
+2. Run the `install.sh` script (it automatically backs up your `~/.bash_profile`):
+```
+$ `~/.bash_it/install.sh
+```
+
+3. Edit your `~/.bash_profile` file in order to customize Bash it.
 
 **NOTE:**
 The install script will also prompt you asking if you use [Jekyll](https://github.com/mojombo/jekyll).
