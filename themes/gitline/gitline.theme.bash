@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$BASH_IT/themes/gitline/powerline.base.bash"
+. "$BASH_IT/themes/gitline/gitline.base.bash"
 
 #For the logo(Uncomment if you want a logo before your name)
 #PROMPT_DISTRO_LOGO="💻"
@@ -28,11 +28,22 @@ SCM_GIT_CHAR=${POWERLINE_SCM_GIT_CHAR:=" "}
 SCM_HG_CHAR=${POWERLINE_SCM_HG_CHAR:="☿ "}
 SCM_THEME_PROMPT_CLEAN=" ✓ "
 SCM_THEME_PROMPT_DIRTY=" ⨯ "
+
+#GIT Prompt colors with no color blindness
 SCM_THEME_PROMPT_COLOR=91
 SCM_THEME_PROMPT_CLEAN_COLOR=41
 SCM_THEME_PROMPT_DIRTY_COLOR=94
 SCM_THEME_PROMPT_STAGED_COLOR=220 #52
 SCM_THEME_PROMPT_UNSTAGED_COLOR=81
+
+#GIT Prompt Colors for Deuteranopia
+
+#SCM_THEME_PROMPT_CLEAN_COLOR=39
+#SCM_THEME_PROMPT_DIRTY_COLOR=9
+#SCM_THEME_PROMPT_STAGED_COLOR=220
+#SCM_THEME_PROMPT_UNSTAGED_COLOR=91
+
+
 
 #Ruby Prompt Symbols
 RVM_THEME_PROMPT_PREFIX=""
