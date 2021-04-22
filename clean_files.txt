@@ -104,6 +104,7 @@ completion/available/vuejs.completion.bash
 aliases/available/dnf.aliases.bash
 aliases/available/vim.aliases.bash
 aliases/available/git.aliases.bash
+aliases/available/git-zsh.aliases.bash
 
 # tests
 test/plugins/alias-completion.plugin.bats
