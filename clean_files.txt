@@ -76,6 +76,7 @@ completion/available/vuejs.completion.bash
 #
 plugins/available/alias-completion.plugin.bash
 plugins/available/basher.plugin.bash
+plugins/available/blesh.plugin.bash
 plugins/available/cmd-returned-notify.plugin.bash
 plugins/available/docker-machine.plugin.bash
 plugins/available/git.plugin.bash
