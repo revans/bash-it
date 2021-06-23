@@ -7,5 +7,13 @@
 # you should first initialize the corresponding environment.
 # So that pip3 is in the system's path.
 if _command_exists pip3; then
-	eval "$(pip3 completion --bash)"
+	function _pip3_lazy() {
+		if _command_exists _pip_completion; then
+			_pip_completion "$@"
+		else
+			eval "$(pip3 completion --bash)"
+			_pip_completion "$@"
+		fi
+	}
+	complete -o default -F _pip3_lazy pip3
 fi
