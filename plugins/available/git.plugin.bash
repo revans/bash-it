@@ -37,6 +37,18 @@ function git_revert() {
 	git reset --hard
 }
 
+function git_restore_file() {
+	about 'restore the deleted file from HEAD'
+	group 'git'
+
+	[ -z "$1" ] && return 1
+
+	COMMIT=$(git rev-list -n 1 HEAD -- "$1")
+
+	# shellcheck disable=SC2086
+	git checkout $COMMIT^ -- "$1"
+}
+
 function git_rollback() {
 	about 'resets the current HEAD to this commit'
 	group 'git'
