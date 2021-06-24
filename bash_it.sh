@@ -2,6 +2,12 @@
 # Initialize Bash It
 BASH_IT_LOG_PREFIX="core: main: "
 
+# If not running interactively, don't do anything
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
 # Only set $BASH_IT if it's not already set
 if [ -z "$BASH_IT" ]; then
 	# Setting $BASH to maintain backwards compatibility
