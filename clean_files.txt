@@ -85,6 +85,7 @@ plugins/available/goenv.plugin.bash
 plugins/available/history-search.plugin.bash
 plugins/available/history-substring-search.plugin.bash
 plugins/available/history.plugin.bash
+plugins/available/thefuck.plugin.bash
 plugins/available/xterm.plugin.bash
 
 # tests
@@ -112,6 +113,9 @@ themes/command_duration.theme.bash
 themes/easy
 themes/modern
 themes/powerline
+themes/powerline-multiline
+themes/powerline-naked
+themes/powerline-plain
 themes/purity
 
 # vendor init files
