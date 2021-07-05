@@ -181,10 +181,8 @@ function scm_prompt_info_common {
 }
 
 function terraform_workspace_prompt {
-	if _command_exists terraform; then
-		if [ -d .terraform ]; then
-			echo -e "$(terraform workspace show 2> /dev/null)"
-		fi
+	if _command_exists terraform && [ -d .terraform ]; then
+		echo -e "$(terraform workspace show 2> /dev/null)"
 	fi
 }
 
@@ -201,7 +199,7 @@ function git_prompt_minimal_info {
 
 	SCM_BRANCH="${SCM_THEME_BRANCH_PREFIX}\$(_git-friendly-ref)"
 
-	if [[ -n "$(_git-status | tail -n1)" ]]; then
+	if [[ -n $(_git-status) ]]; then
 		SCM_DIRTY=1
 		SCM_STATE=${SCM_THEME_PROMPT_DIRTY}
 	fi
@@ -256,7 +254,9 @@ function git_prompt_vars {
 		if [[ "${SCM_GIT_GITSTATUS_RAN}" == "true" ]]; then
 			stash_count=${VCS_STATUS_STASHES}
 		else
-			stash_count="$(git stash list 2> /dev/null | wc -l | tr -d ' ')"
+			local Data
+			readarray Data <<< "$(git stash list 2> /dev/null)"
+			stash_count=${Data//[![:digit:]]/}
 		fi
 		[[ "${stash_count}" -gt 0 ]] && SCM_BRANCH+=" ${SCM_GIT_STASH_CHAR_PREFIX}${stash_count}${SCM_GIT_STASH_CHAR_SUFFIX}"
 	fi
@@ -287,7 +287,7 @@ function git_prompt_vars {
 	SCM_PREFIX=${GIT_THEME_PROMPT_PREFIX:-$SCM_THEME_PROMPT_PREFIX}
 	SCM_SUFFIX=${GIT_THEME_PROMPT_SUFFIX:-$SCM_THEME_PROMPT_SUFFIX}
 
-	SCM_CHANGE=$(_git-short-sha 2> /dev/null || echo "")
+	SCM_CHANGE=$(_git-short-sha 2> /dev/null || echo)
 }
 
 function p4_prompt_vars {
@@ -399,7 +399,17 @@ function rvm_version_prompt {
 function rbenv_version_prompt {
 	if which rbenv &> /dev/null; then
 		rbenv=$(rbenv version-name) || return
-		rbenv commands | grep -q gemset && gemset=$(rbenv gemset active 2> /dev/null) && rbenv="$rbenv@${gemset%% *}"
+
+		while read; do
+			if [[ $REPLY == *gemset* ]]; then
+				if gemset=$(rbenv gemset active 2> /dev/null); then
+					rbenv="$rbenv@${gemset%% *}"
+				fi
+
+				break
+			fi
+		done <<< "$(rbenv commands)"
+
 		if [ "$rbenv" != "system" ]; then
 			echo -e "$RBENV_THEME_PROMPT_PREFIX$rbenv$RBENV_THEME_PROMPT_SUFFIX"
 		fi
@@ -418,7 +428,7 @@ function chruby_version_prompt {
 			chruby_auto
 		fi
 
-		ruby_version=$(ruby --version | awk '{print $1, $2;}') || return
+		read _ ruby_version _ <<< "$(ruby --version)" || return
 
 		if ! chruby | grep -q '\*'; then
 			ruby_version="${ruby_version} (system)"
@@ -455,7 +465,9 @@ function condaenv_prompt {
 }
 
 function py_interp_prompt {
-	py_version=$(python --version 2>&1 | awk 'NR==1{print "py-"$2;}') || return
+	read _ py_version _ <<< "$(python --version 2>&1)" || return
+	[ $? -gt 0 ] && py_version="py-$py_version"
+
 	echo -e "${PYTHON_THEME_PROMPT_PREFIX}${py_version}${PYTHON_THEME_PROMPT_SUFFIX}"
 }
 
@@ -465,7 +477,9 @@ function python_version_prompt {
 
 function git_user_info {
 	# support two or more initials, set by 'git pair' plugin
-	SCM_CURRENT_USER=$(git config user.initials | sed 's% %+%')
+	local raw_initials=`git config user.initials`
+	SCM_CURRENT_USER=${raw_initials// /+}
+
 	# if `user.initials` weren't set, attempt to extract initials from `user.name`
 	[[ -z "${SCM_CURRENT_USER}" ]] && SCM_CURRENT_USER=$(printf "%s" "$(for word in $(git config user.name | PERLIO=:utf8 perl -pe '$_=lc'); do printf "%s" "${word:0:1}"; done)")
 	[[ -n "${SCM_CURRENT_USER}" ]] && printf "%s" "$SCM_THEME_CURRENT_USER_PREFFIX$SCM_CURRENT_USER$SCM_THEME_CURRENT_USER_SUFFIX"
